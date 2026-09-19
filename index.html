@@ -12,21 +12,37 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
     body { font-family: 'Inter', sans-serif; }
+    .tab-btn.active {
+      background-color: #2563eb;
+      color: #ffffff;
+      box-shadow: 0 4px 6px -1px rgb(37 99 235 / 0.2);
+    }
+    .tab-btn:not(.active) {
+      background-color: #f1f5f9;
+      color: #475569;
+    }
+    .tab-btn:not(.active):hover {
+      background-color: #e2e8f0;
+      color: #0f172a;
+    }
   </style>
 </head>
 <body class="bg-slate-50 text-slate-800 antialiased flex flex-col min-h-screen">
 
   <!-- Header / Navigation -->
-  <header class="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-slate-200">
+  <header class="sticky top-0 z-40 bg-white/90 backdrop-blur border-b border-slate-200">
     <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
       <a href="#" class="flex items-center gap-2 text-xl font-black text-blue-600 tracking-tight">
         <i data-lucide="layers" class="w-6 h-6"></i>
         <span>APP TINH GỌN</span>
       </a>
-      <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600">
-        <a href="#about" class="hover:text-blue-600 transition">Về Dự Án</a>
-        <a href="#apps" class="hover:text-blue-600 transition">Ứng Dụng</a>
-        <a href="#contact" class="hover:text-blue-600 transition">Liên Hệ</a>
+      <nav class="hidden md:flex items-center gap-2 bg-slate-100 p-1 rounded-xl">
+        <button onclick="switchTab('apps')" id="nav-btn-apps" class="tab-btn active px-4 py-1.5 rounded-lg text-sm font-semibold transition">
+          Ứng Dụng Đã Có
+        </button>
+        <button onclick="switchTab('project')" id="nav-btn-project" class="tab-btn px-4 py-1.5 rounded-lg text-sm font-semibold transition">
+          Dự Án MISA meInvoice
+        </button>
       </nav>
       <a href="https://zalo.me/0916887359" target="_blank" class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold px-4 py-2 rounded-lg shadow-sm transition">
         <i data-lucide="phone-call" class="w-4 h-4"></i>
@@ -36,154 +52,263 @@
   </header>
 
   <!-- Hero Section -->
-  <section class="relative py-20 px-4 bg-gradient-to-b from-blue-50/50 to-slate-50 border-b border-slate-100">
-    <div class="max-w-4xl mx-auto text-center space-y-6">
-      <div class="inline-flex items-center gap-2 bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1.5 rounded-full">
+  <section class="py-12 md:py-16 px-4 bg-gradient-to-b from-blue-50/60 to-slate-50 border-b border-slate-100 text-center">
+    <div class="max-w-4xl mx-auto space-y-4">
+      <div class="inline-flex items-center gap-2 bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full">
         <i data-lucide="check-circle" class="w-3.5 h-3.5"></i>
-        Đúc kết từ thực tế vận hành siêu thị & bán lẻ
+        Thực chiến từ điều hành siêu thị & bán lẻ
       </div>
-      <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight">
-        Chuyển Đổi Số Tinh Gọn <br class="hidden sm:inline"> Cho Doanh Nghiệp Nhỏ & Cửa Hàng
+      <h1 class="text-3xl md:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight">
+        Chuyển Đổi Số Tinh Gọn Cho Doanh Nghiệp Nhỏ
       </h1>
-      <p class="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
-        Giải quyết triệt để các khó khăn hàng ngày bằng các ứng dụng nhỏ gọn, dễ thao tác, tùy biến linh hoạt theo đúng quy trình của bạn.
+      <p class="text-base md:text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">
+        Những công cụ nhỏ giải quyết triệt để nỗi đau vận hành hàng ngày: tránh sót date, giảm lệch kho, chấm công tự động và xuất hóa đơn chuẩn xác.
       </p>
-      <div class="flex flex-wrap justify-center gap-4 pt-4">
-        <a href="#apps" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg shadow-md hover:shadow-lg transition flex items-center gap-2">
-          <span>Xem các app đã triển khai</span>
-          <i data-lucide="arrow-down" class="w-4 h-4"></i>
-        </a>
-        <a href="#contact" class="bg-white hover:bg-slate-100 border border-slate-300 text-slate-700 font-semibold px-6 py-3 rounded-lg transition">
-          Tư vấn theo nghiệp vụ
-        </a>
+
+      <!-- Tab Switcher Mobile & Desktop Sub-bar -->
+      <div class="pt-4 flex justify-center gap-3">
+        <button onclick="switchTab('apps')" id="hero-btn-apps" class="tab-btn active px-5 py-2.5 rounded-xl font-semibold text-sm transition flex items-center gap-2">
+          <i data-lucide="grid" class="w-4 h-4"></i>
+          <span>Xem Kho Ứng Dụng</span>
+        </button>
+        <button onclick="switchTab('project')" id="hero-btn-project" class="tab-btn px-5 py-2.5 rounded-xl font-semibold text-sm transition flex items-center gap-2">
+          <i data-lucide="receipt" class="w-4 h-4"></i>
+          <span>Dự Án MISA meInvoice</span>
+        </button>
       </div>
     </div>
   </section>
 
-  <!-- About / Câu chuyện thực tế -->
-  <section id="about" class="py-16 px-4 bg-white border-b border-slate-100">
-    <div class="max-w-5xl mx-auto">
-      <div class="bg-slate-50 rounded-2xl p-8 md:p-12 border border-slate-200/80">
-        <div class="flex items-center gap-3 text-blue-600 mb-4">
-          <i data-lucide="sparkles" class="w-6 h-6"></i>
-          <h2 class="text-xl font-bold uppercase tracking-wider text-slate-900">Vì sao là App Tinh Gọn?</h2>
+  <!-- Main Content Container -->
+  <main class="flex-1 max-w-6xl mx-auto px-4 py-12 w-full">
+
+    <!-- ================= THẺ 1: CÁC ỨNG DỤNG ================= -->
+    <div id="tab-apps" class="space-y-12">
+      <div class="border-b border-slate-200 pb-4">
+        <h2 class="text-2xl font-bold text-slate-900">Danh Mục Ứng Dụng Hoạt Động</h2>
+        <p class="text-sm text-slate-500 mt-1">Bấm vào ảnh để phóng to xem chi tiết giao diện</p>
+      </div>
+
+      <!-- App 1: Chấm công & Tính lương -->
+      <div class="bg-white rounded-2xl border border-slate-200 p-6 md:p-8 shadow-sm hover:shadow-md transition grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+        <div class="lg:col-span-6 space-y-4">
+          <div class="inline-flex items-center gap-2 text-blue-600 font-semibold text-sm">
+            <i data-lucide="calendar-check" class="w-5 h-5"></i>
+            Hệ Thống Nhân Sự
+          </div>
+          <h3 class="text-xl font-bold text-slate-900">App Chấm Công - KPI - Tính Lương Tự Động</h3>
+          <p class="text-slate-600 text-sm leading-relaxed">
+            Nhân viên chấm công xác thực vị trí GPS theo từng chi nhánh. Hệ thống tự động tính ngày công thực tế, tính thưởng doanh số, phụ cấp và khấu trừ BHXH/Công đoàn minh bạch theo phiếu lương.
+          </p>
+          <div class="pt-2">
+            <a href="https://trungkienasmart-code.github.io/chamcong-tinhluong/" target="_blank" class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-medium text-sm px-4 py-2 rounded-lg transition">
+              <span>Mở ứng dụng trải nghiệm</span>
+              <i data-lucide="external-link" class="w-4 h-4"></i>
+            </a>
+          </div>
         </div>
-        <p class="text-slate-700 text-base md:text-lg leading-relaxed mb-6">
-          Là người trực tiếp vận hành siêu thị, mình hiểu rõ những lãng phí thời gian khi phải dùng sổ sách thủ công, nỗi lo hủy hàng vì hết date hay sự cồng kềnh của những phần mềm quản trị đắt đỏ nhưng nhân viên khó áp dụng.
-        </p>
-        <p class="text-slate-700 text-base md:text-lg leading-relaxed">
-          Mỗi công cụ ở đây được sinh ra từ chính áp lực công việc hàng ngày, được thử nghiệm và tối ưu liên tục. Mục tiêu là chia sẻ giải pháp thực chiến đến các cửa hàng, nhà phân phối và doanh nghiệp nhỏ để cùng nhau vận hành nhẹ nhàng, chính xác hơn.
-        </p>
+        <div class="lg:col-span-6 grid grid-cols-2 gap-3">
+          <img src="images/chamcong-1.png" alt="Màn hình chấm công" onclick="openLightbox(this.src)" class="rounded-xl border border-slate-200 shadow-sm cursor-pointer hover:opacity-90 transition object-cover h-64 w-full bg-slate-100">
+          <img src="images/chamcong-2.png" alt="Phiếu tính lương chi tiết" onclick="openLightbox(this.src)" class="rounded-xl border border-slate-200 shadow-sm cursor-pointer hover:opacity-90 transition object-cover h-64 w-full bg-slate-100">
+        </div>
+      </div>
+
+      <!-- App 2: Kiểm soát Date -->
+      <div class="bg-white rounded-2xl border border-slate-200 p-6 md:p-8 shadow-sm hover:shadow-md transition grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+        <div class="lg:col-span-6 space-y-4">
+          <div class="inline-flex items-center gap-2 text-emerald-600 font-semibold text-sm">
+            <i data-lucide="barcode" class="w-5 h-5"></i>
+            Kho & Quầy Kệ
+          </div>
+          <h3 class="text-xl font-bold text-slate-900">Kiểm Soát Hạn Dùng (Date) & Bắn Bổ Sung Tem Kệ</h3>
+          <p class="text-slate-600 text-sm leading-relaxed">
+            Dùng trực tiếp camera điện thoại quét mã vạch để phân loại hàng cận hạn (báo động màu Đỏ/Cam). Quản lý dễ dàng chỉ đạo hướng xử lý và trích xuất báo cáo Excel trả hàng nhà cung cấp.
+          </p>
+          <div class="pt-2">
+            <a href="https://trungkienasmart-code.github.io/app-kiemsoatdate/" target="_blank" class="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-medium text-sm px-4 py-2 rounded-lg transition">
+              <span>Mở ứng dụng trải nghiệm</span>
+              <i data-lucide="external-link" class="w-4 h-4"></i>
+            </a>
+          </div>
+        </div>
+        <div class="lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <img src="images/date-1.png" alt="Quy trình 4 bước kiểm date" onclick="openLightbox(this.src)" class="rounded-xl border border-slate-200 shadow-sm cursor-pointer hover:opacity-90 transition object-cover h-48 w-full bg-slate-100">
+          <img src="images/date-2.png" alt="Dashboard quản lý và xuất excel" onclick="openLightbox(this.src)" class="rounded-xl border border-slate-200 shadow-sm cursor-pointer hover:opacity-90 transition object-cover h-48 w-full bg-slate-100">
+        </div>
+      </div>
+
+      <!-- App 3: Kiểm Kê -->
+      <div class="bg-white rounded-2xl border border-slate-200 p-6 md:p-8 shadow-sm hover:shadow-md transition grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+        <div class="lg:col-span-6 space-y-4">
+          <div class="inline-flex items-center gap-2 text-amber-600 font-semibold text-sm">
+            <i data-lucide="boxes" class="w-5 h-5"></i>
+            Vận Hành Kho Hàng
+          </div>
+          <h3 class="text-xl font-bold text-slate-900">App Kiểm Kê Kho & Siêu Thị Bằng Camera</h3>
+          <p class="text-slate-600 text-sm leading-relaxed">
+            Biến điện thoại của nhân viên thành máy quét mã chuyên dụng. Quét kiểm đếm số lượng nhanh chóng, đối soát tức thì độ lệch giữa số liệu thực tế trên kệ và phần mềm quản lý kho.
+          </p>
+          <div class="pt-2">
+            <a href="https://trungkienasmart-code.github.io/app-kiemke/" target="_blank" class="inline-flex items-center gap-2 bg-amber-600 hover:bg-amber-700 text-white font-medium text-sm px-4 py-2 rounded-lg transition">
+              <span>Mở ứng dụng trải nghiệm</span>
+              <i data-lucide="external-link" class="w-4 h-4"></i>
+            </a>
+          </div>
+        </div>
+        <div class="lg:col-span-6 flex justify-center bg-slate-50 p-6 rounded-xl border border-dashed border-slate-200 text-center">
+          <div class="space-y-2">
+            <i data-lucide="scan-line" class="w-12 h-12 text-slate-400 mx-auto"></i>
+            <p class="text-sm font-semibold text-slate-700">Giao diện quét mã vạch tốc độ cao</p>
+            <p class="text-xs text-slate-500">Hỗ trợ nhận diện tự động liên tục, chống dội mã</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- App 4: GPS Tracking -->
+      <div class="bg-white rounded-2xl border border-slate-200 p-6 md:p-8 shadow-sm hover:shadow-md transition grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+        <div class="lg:col-span-6 space-y-4">
+          <div class="inline-flex items-center gap-2 text-purple-600 font-semibold text-sm">
+            <i data-lucide="navigation" class="w-5 h-5"></i>
+            Giao Vận & Đi Tuyến
+          </div>
+          <h3 class="text-xl font-bold text-slate-900">Theo Dõi Xe Giao Hàng & Nhân Viên Bán Hàng Tuyến</h3>
+          <p class="text-slate-600 text-sm leading-relaxed">
+            Hệ thống giám sát lộ trình di chuyển của nhân viên bán hàng/giao hàng theo thời gian thực trên bản đồ vệ tinh. Quản lý phân quyền chủ doanh nghiệp (Admin) và nhân viên đi tuyến rõ ràng.
+          </p>
+          <div class="pt-2">
+            <a href="https://trungkienasmart-code.github.io/gps-tracking-app/" target="_blank" class="inline-flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white font-medium text-sm px-4 py-2 rounded-lg transition">
+              <span>Mở ứng dụng trải nghiệm</span>
+              <i data-lucide="external-link" class="w-4 h-4"></i>
+            </a>
+          </div>
+        </div>
+        <div class="lg:col-span-6">
+          <img src="images/gps-1.png" alt="Bản đồ theo dõi nhân viên" onclick="openLightbox(this.src)" class="rounded-xl border border-slate-200 shadow-sm cursor-pointer hover:opacity-90 transition object-cover h-56 w-full bg-slate-100">
+        </div>
+      </div>
+
+      <!-- App 5: Quản lý nhà trọ -->
+      <div class="bg-white rounded-2xl border border-slate-200 p-6 md:p-8 shadow-sm hover:shadow-md transition grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+        <div class="lg:col-span-6 space-y-4">
+          <div class="inline-flex items-center gap-2 text-indigo-600 font-semibold text-sm">
+            <i data-lucide="home" class="w-5 h-5"></i>
+            Giải Pháp Apps Script
+          </div>
+          <h3 class="text-xl font-bold text-slate-900">Quản Lý Nhà Trọ Tinh Gọn (Google Apps Script)</h3>
+          <p class="text-slate-600 text-sm leading-relaxed">
+            Quy trình hoàn chỉnh từ nhận/trả phòng, ghi nhận chỉ số điện nước, theo dõi công nợ từng phòng đến tổng hợp nhật ký thu chi, số dư tài khoản và nhắc ngày đáo hạn.
+          </p>
+          <div class="pt-2">
+            <span class="inline-flex items-center gap-2 bg-slate-100 text-slate-700 font-medium text-sm px-4 py-2 rounded-lg border border-slate-200">
+              <i data-lucide="wrench" class="w-4 h-4"></i>
+              Triển khai theo đặc thù từng khu trọ
+            </span>
+          </div>
+        </div>
+        <div class="lg:col-span-6">
+          <img src="images/nhatro-1.png" alt="Quy trình quản lý nhà trọ" onclick="openLightbox(this.src)" class="rounded-xl border border-slate-200 shadow-sm cursor-pointer hover:opacity-90 transition object-cover h-56 w-full bg-slate-100">
+        </div>
+      </div>
+
+      <!-- App 6: Gõ 10 ngón -->
+      <div class="bg-white rounded-2xl border border-slate-200 p-6 md:p-8 shadow-sm hover:shadow-md transition grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+        <div class="lg:col-span-6 space-y-4">
+          <div class="inline-flex items-center gap-2 text-rose-600 font-semibold text-sm">
+            <i data-lucide="heart" class="w-5 h-5"></i>
+            Dự Án Cộng Đồng
+          </div>
+          <h3 class="text-xl font-bold text-slate-900">Luyện Gõ Bàn Phím 10 Ngón Tiếng Việt Cho Trẻ Em</h3>
+          <p class="text-slate-600 text-sm leading-relaxed">
+            Ứng dụng miễn phí 100% kết hợp rèn luyện kỹ năng phím chuẩn với các áng văn học kinh điển và bài học Đạo Đức - Trí Tuệ - Nghị Lực. Có tích hợp Mini Game Thần Công Luyện Chữ kích thích tinh thần tự học.
+          </p>
+          <div class="pt-2">
+            <a href="https://trungkienasmart-code.github.io/go-tieng-viet-10-ngon/" target="_blank" class="inline-flex items-center gap-2 bg-rose-600 hover:bg-rose-700 text-white font-medium text-sm px-4 py-2 rounded-lg transition">
+              <span>Học gõ miễn phí ngay</span>
+              <i data-lucide="external-link" class="w-4 h-4"></i>
+            </a>
+          </div>
+        </div>
+        <div class="lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <img src="images/typing-1.png" alt="Luyện gõ bài học nghị lực" onclick="openLightbox(this.src)" class="rounded-xl border border-slate-200 shadow-sm cursor-pointer hover:opacity-90 transition object-cover h-48 w-full bg-slate-100">
+          <img src="images/typing-2.png" alt="Minigame thần công luyện chữ" onclick="openLightbox(this.src)" class="rounded-xl border border-slate-200 shadow-sm cursor-pointer hover:opacity-90 transition object-cover h-48 w-full bg-slate-100">
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ================= THẺ 2: DỰ ÁN MISA MEINVOICE ================= -->
+    <div id="tab-project" class="hidden space-y-8">
+      <!-- Banner giới thiệu -->
+      <div class="bg-gradient-to-r from-slate-900 to-blue-950 text-white rounded-3xl p-8 md:p-12 shadow-lg border border-slate-800">
+        <div class="max-w-3xl space-y-4">
+          <div class="inline-flex items-center gap-2 bg-blue-500/20 text-blue-300 border border-blue-400/30 text-xs font-semibold px-3 py-1 rounded-full">
+            <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+            Dự Án Đang Triển Khai Thực Tế
+          </div>
+          <h2 class="text-3xl md:text-4xl font-black tracking-tight leading-snug">
+            Công Cụ Tự Động Khớp Bill & Đẩy Hóa Đơn Lên MISA meInvoice
+          </h2>
+          <p class="text-slate-300 text-base md:text-lg leading-relaxed">
+            Hỗ trợ giải phóng hoàn toàn thời gian nhập liệu thủ công của kế toán, xuất đúng - xuất đủ theo doanh thu bán hàng thực tế và tồn kho tính thuế.
+          </p>
+        </div>
+      </div>
+
+      <!-- 3 Điểm nổi bật -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+          <div class="w-10 h-10 bg-emerald-100 text-emerald-700 rounded-lg flex items-center justify-center font-bold">
+            <i data-lucide="zap" class="w-5 h-5"></i>
+          </div>
+          <h4 class="font-bold text-slate-900 text-lg">Tăng Tốc Nghiệp Vụ</h4>
+          <p class="text-slate-600 text-sm leading-relaxed">
+            Xử lý hàng trăm giao dịch bán lẻ (Bill bán hàng) chỉ trong vài giây, xóa bỏ tình trạng kế toán phải gõ tay từng dòng hóa đơn kéo dài nhiều giờ.
+          </p>
+        </div>
+
+        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+          <div class="w-10 h-10 bg-blue-100 text-blue-700 rounded-lg flex items-center justify-center font-bold">
+            <i data-lucide="shield-check" class="w-5 h-5"></i>
+          </div>
+          <h4 class="font-bold text-slate-900 text-lg">Xuất Đúng & Khớp Tuyệt Đối</h4>
+          <p class="text-slate-600 text-sm leading-relaxed">
+            Tự động đối soát với danh mục tồn thuế, tự bù mã hợp lệ, cơ chế chống xuất trùng lặp qua lịch sử file và đảm bảo chênh lệch doanh thu bằng 0 đồng.
+          </p>
+        </div>
+
+        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+          <div class="w-10 h-10 bg-purple-100 text-purple-700 rounded-lg flex items-center justify-center font-bold">
+            <i data-lucide="sliders" class="w-5 h-5"></i>
+          </div>
+          <h4 class="font-bold text-slate-900 text-lg">Tùy Biến Theo Thực Tế</h4>
+          <p class="text-slate-600 text-sm leading-relaxed">
+            Lập trình linh hoạt theo định dạng dữ liệu đầu ra của từng phần mềm bán hàng POS và quy tắc xuất thuế riêng của từng doanh nghiệp, siêu thị.
+          </p>
+        </div>
+      </div>
+
+      <!-- Hình ảnh minh họa vận hành dự án -->
+      <div class="bg-white p-6 md:p-8 rounded-2xl border border-slate-200 shadow-sm space-y-6">
+        <div>
+          <h3 class="text-xl font-bold text-slate-900">Nhật Ký Chạy Thực Tế & Đối Soát Doanh Thu</h3>
+          <p class="text-sm text-slate-500 mt-1">Ảnh chụp quá trình khớp dữ liệu tự động giữa mã hàng bán lẻ và tồn kho tính thuế (Bấm vào để phóng to)</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <img src="images/misa-1.png" alt="Log xử lý khớp bill tự động" onclick="openLightbox(this.src)" class="rounded-xl border border-slate-800 shadow-md cursor-pointer hover:opacity-90 transition bg-black w-full object-contain max-h-96">
+          <img src="images/misa-2.png" alt="Bảng dashboard so sánh khớp lệch" onclick="openLightbox(this.src)" class="rounded-xl border border-slate-800 shadow-md cursor-pointer hover:opacity-90 transition bg-black w-full object-contain max-h-96">
+        </div>
       </div>
     </div>
-  </section>
 
-  <!-- Showcase / Danh sách ứng dụng -->
-  <section id="apps" class="py-16 px-4 bg-slate-50 flex-1">
-    <div class="max-w-6xl mx-auto">
-      <div class="text-center mb-12">
-        <h2 class="text-3xl font-extrabold text-slate-900">Ứng Dụng Đã Triển Khai</h2>
-        <p class="text-slate-600 mt-2">Truy cập và trải nghiệm trực tiếp trên trình duyệt hoặc điện thoại</p>
-      </div>
+  </main>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-
-        <!-- Card 1: Chấm công -->
-        <div class="bg-white rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition flex flex-col p-6">
-          <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-lg flex items-center justify-center mb-4">
-            <i data-lucide="calendar-check" class="w-6 h-6"></i>
-          </div>
-          <h3 class="text-lg font-bold text-slate-900 mb-2">Chấm Công & Tính Lương</h3>
-          <p class="text-sm text-slate-600 leading-relaxed mb-4 flex-1">
-            Quản lý ngày công, thưởng phạt, ngày phép và tự động tính toán bảng lương, chi phí theo lương minh bạch.
-          </p>
-          <a href="https://trungkienasmart-code.github.io/chamcong-tinhluong/" target="_blank" class="inline-flex items-center justify-between text-blue-600 font-semibold text-sm hover:underline pt-2 border-t border-slate-100">
-            <span>Dùng thử app</span>
-            <i data-lucide="external-link" class="w-4 h-4"></i>
-          </a>
-        </div>
-
-        <!-- Card 2: Kiểm soát Date -->
-        <div class="bg-white rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition flex flex-col p-6">
-          <div class="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-lg flex items-center justify-center mb-4">
-            <i data-lucide="barcode" class="w-6 h-6"></i>
-          </div>
-          <h3 class="text-lg font-bold text-slate-900 mb-2">Kiểm Soát Hạn Dùng (Date)</h3>
-          <p class="text-sm text-slate-600 leading-relaxed mb-4 flex-1">
-            Quét mã vạch trực tiếp bằng camera điện thoại, phân loại sản phẩm cận hạn, hạn chế tối đa việc hủy hàng.
-          </p>
-          <a href="https://trungkienasmart-code.github.io/app-kiemsoatdate/" target="_blank" class="inline-flex items-center justify-between text-blue-600 font-semibold text-sm hover:underline pt-2 border-t border-slate-100">
-            <span>Dùng thử app</span>
-            <i data-lucide="external-link" class="w-4 h-4"></i>
-          </a>
-        </div>
-
-        <!-- Card 3: Kiểm kê kho -->
-        <div class="bg-white rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition flex flex-col p-6">
-          <div class="w-12 h-12 bg-amber-50 text-amber-600 rounded-lg flex items-center justify-center mb-4">
-            <i data-lucide="boxes" class="w-6 h-6"></i>
-          </div>
-          <h3 class="text-lg font-bold text-slate-900 mb-2">Kiểm Kê Kho & Siêu Thị</h3>
-          <p class="text-sm text-slate-600 leading-relaxed mb-4 flex-1">
-            Dùng điện thoại quét mã kiểm đếm nhanh chóng, rà soát số lượng lệch tồn thực tế tức thì, tiết kiệm nhân công.
-          </p>
-          <a href="https://trungkienasmart-code.github.io/app-kiemke/" target="_blank" class="inline-flex items-center justify-between text-blue-600 font-semibold text-sm hover:underline pt-2 border-t border-slate-100">
-            <span>Dùng thử app</span>
-            <i data-lucide="external-link" class="w-4 h-4"></i>
-          </a>
-        </div>
-
-        <!-- Card 4: GPS Tracking -->
-        <div class="bg-white rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition flex flex-col p-6">
-          <div class="w-12 h-12 bg-purple-50 text-purple-600 rounded-lg flex items-center justify-center mb-4">
-            <i data-lucide="navigation" class="w-6 h-6"></i>
-          </div>
-          <h3 class="text-lg font-bold text-slate-900 mb-2">Theo Dõi Xe & Nhân Viên Tuyến</h3>
-          <p class="text-sm text-slate-600 leading-relaxed mb-4 flex-1">
-            Định vị lộ trình giao hàng, hỗ trợ giám sát hành trình giao vận và điểm tiếp xúc khách hàng theo thời gian thực.
-          </p>
-          <a href="https://trungkienasmart-code.github.io/gps-tracking-app/" target="_blank" class="inline-flex items-center justify-between text-blue-600 font-semibold text-sm hover:underline pt-2 border-t border-slate-100">
-            <span>Dùng thử app</span>
-            <i data-lucide="external-link" class="w-4 h-4"></i>
-          </a>
-        </div>
-
-        <!-- Card 5: Quản lý nhà trọ -->
-        <div class="bg-white rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition flex flex-col p-6">
-          <div class="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-lg flex items-center justify-center mb-4">
-            <i data-lucide="home" class="w-6 h-6"></i>
-          </div>
-          <h3 class="text-lg font-bold text-slate-900 mb-2">Quản Lý Nhà Trọ (Google Apps Script)</h3>
-          <p class="text-sm text-slate-600 leading-relaxed mb-4 flex-1">
-            Giải pháp chạy trên Google Sheets giúp tính tiền phòng, điện nước tự động và xuất thông báo thanh toán dễ dàng.
-          </p>
-          <div class="inline-flex items-center justify-between text-slate-500 font-semibold text-sm pt-2 border-t border-slate-100">
-            <span>Tùy biến theo yêu cầu</span>
-            <i data-lucide="wrench" class="w-4 h-4"></i>
-          </div>
-        </div>
-
-        <!-- Card 6: Gõ 10 ngón -->
-        <div class="bg-white rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition flex flex-col p-6">
-          <div class="w-12 h-12 bg-rose-50 text-rose-600 rounded-lg flex items-center justify-center mb-4">
-            <i data-lucide="keyboard" class="w-6 h-6"></i>
-          </div>
-          <h3 class="text-lg font-bold text-slate-900 mb-2">Học Gõ 10 Ngón Tiếng Việt</h3>
-          <p class="text-sm text-slate-600 leading-relaxed mb-4 flex-1">
-            Ứng dụng miễn phí 100% cho trẻ rèn luyện kỹ năng gõ bàn phím chuẩn, lồng ghép các bài học đạo đức và nghị lực sống.
-          </p>
-          <a href="https://trungkienasmart-code.github.io/go-tieng-viet-10-ngon/" target="_blank" class="inline-flex items-center justify-between text-blue-600 font-semibold text-sm hover:underline pt-2 border-t border-slate-100">
-            <span>Truy cập miễn phí</span>
-            <i data-lucide="external-link" class="w-4 h-4"></i>
-          </a>
-        </div>
-
-      </div>
-    </div>
-  </section>
+  <!-- Lightbox Modal (Phóng to ảnh) -->
+  <div id="lightbox" onclick="closeLightbox()" class="fixed inset-0 z-50 bg-black/85 hidden items-center justify-center p-4 backdrop-blur-sm cursor-zoom-out">
+    <img id="lightbox-img" src="" alt="Phóng to" class="max-w-full max-h-[90vh] rounded-lg shadow-2xl transition duration-300">
+  </div>
 
   <!-- Contact & Footer -->
-  <footer id="contact" class="bg-slate-900 text-slate-300 py-16 px-4 border-t border-slate-800">
+  <footer id="contact" class="bg-slate-900 text-slate-300 py-16 px-4 border-t border-slate-800 mt-12">
     <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10">
       <div>
         <h3 class="text-2xl font-bold text-white mb-3">App Tinh Gọn</h3>
@@ -222,9 +347,51 @@
     </div>
   </footer>
 
+  <!-- Script điều khiển Tab & Lightbox -->
   <script>
-    // Khởi tạo icons
     lucide.createIcons();
+
+    function switchTab(tabId) {
+      const appsTab = document.getElementById('tab-apps');
+      const projectTab = document.getElementById('tab-project');
+      
+      const navBtnApps = document.getElementById('nav-btn-apps');
+      const navBtnProject = document.getElementById('nav-btn-project');
+      const heroBtnApps = document.getElementById('hero-btn-apps');
+      const heroBtnProject = document.getElementById('hero-btn-project');
+
+      if (tabId === 'apps') {
+        appsTab.classList.remove('hidden');
+        projectTab.classList.add('hidden');
+
+        navBtnApps.classList.add('active');
+        heroBtnApps.classList.add('active');
+        navBtnProject.classList.remove('active');
+        heroBtnProject.classList.remove('active');
+      } else {
+        appsTab.classList.add('hidden');
+        projectTab.classList.remove('hidden');
+
+        navBtnProject.classList.add('active');
+        heroBtnProject.classList.add('active');
+        navBtnApps.classList.remove('active');
+        heroBtnApps.classList.remove('active');
+      }
+    }
+
+    function openLightbox(src) {
+      const lightbox = document.getElementById('lightbox');
+      const img = document.getElementById('lightbox-img');
+      img.src = src;
+      lightbox.classList.remove('hidden');
+      lightbox.classList.add('flex');
+    }
+
+    function closeLightbox() {
+      const lightbox = document.getElementById('lightbox');
+      lightbox.classList.add('hidden');
+      lightbox.classList.remove('flex');
+    }
   </script>
 </body>
 </html>
